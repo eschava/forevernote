@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.eschava.forevernote</groupId>
+    <artifactId>forevernote</artifactId>
+    <packaging>war</packaging>
+    <version>0.2.0.BUILD-SNAPSHOT</version>
+    <name>forevernote</name>
+
+	<properties>
+		<!-- execute gae:unpack after version is changed -->
+		<gae.version>1.9.17</gae.version>
+		<gae-runtime.version>1.7.5.1</gae-runtime.version>
+		<gae.home>${user.home}/.m2/repository/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}</gae.home>
+		<appengine.sdk.root>${user.home}/.m2/repository/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}</appengine.sdk.root>
+	</properties>
+
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+        <directory>${env.TEMP}/forevernote/target</directory>
+        <outputDirectory>${env.TEMP}/forevernote/classes</outputDirectory>
+
+		<resources>
+		    <resource>
+		        <directory>${project.build.sourceDirectory}</directory>
+		        <includes>
+		           <include>**/*.dtd</include>
+		           <include>**/*.png</include>
+		        </includes>
+		    </resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<webXml>resources/WEB-INF/web.xml</webXml>
+					<webResources><resource><directory>resources</directory></resource></webResources>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+                <version>7.1.2.v20100523</version>
+                <configuration>
+                    <webAppSourceDirectory>resources</webAppSourceDirectory>
+                    <webAppConfig>
+                        <contextPath>/</contextPath>
+                    </webAppConfig>
+                </configuration>
+            </plugin>
+
+			<plugin>
+				<groupId>net.kindleit</groupId>
+				<artifactId>maven-gae-plugin</artifactId>
+				<version>0.9.6</version>
+				<configuration>
+					<unpackVersion>${gae.version}</unpackVersion>
+					<sdkDir>${appengine.sdk.root}</sdkDir>
+					<jvmFlags>
+						<jvmFlag>-Dfile.encoding=UTF-8</jvmFlag>
+						<jvmFlag>-Xdebug</jvmFlag>
+						<jvmFlag>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000</jvmFlag>
+					</jvmFlags>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>net.kindleit</groupId>
+						<artifactId>gae-runtime</artifactId>
+						<version>${gae-runtime.version}</version>
+						<type>pom</type>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.evernote</groupId>
+            <artifactId>evernote-api</artifactId>
+            <version>1.25.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client</artifactId>
+            <version>1.7.0-beta</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.android</groupId>
+					<artifactId>android</artifactId>
+				</exclusion>
+			</exclusions>
+        </dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.htmlcleaner</groupId>
+			<artifactId>htmlcleaner</artifactId>
+			<version>2.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.ant</groupId>
+					<artifactId>ant</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+        <dependency>
+            <groupId>com.google.appengine</groupId>
+            <artifactId>appengine-api-1.0-sdk</artifactId>
+            <version>${gae.version}</version>
+        </dependency>
+
+        <!-- App Engine Runtime Dependencies -->
+        <dependency>
+            <groupId>com.google.appengine</groupId>
+            <artifactId>appengine-tools-sdk</artifactId>
+            <version>${gae.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>3.1.0.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+
+		<dependency>
+			<groupId>com.googlecode.objectify</groupId>
+			<artifactId>objectify</artifactId>
+			<version>5.1.5</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>com.googlecode.objectify-appengine-spring</groupId>
+		    <artifactId>objectify-appengine-spring</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.wutka</groupId>
+			<artifactId>dtdparser</artifactId>
+			<version>1.21</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker-gae</artifactId>
+			<version>2.3.18</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.7</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+    <repositories>
+        <repository>
+            <id>google-api-services</id>
+            <url>http://mavenrepo.google-api-java-client.googlecode.com/hg</url>
+        </repository>
+
+        <repository>
+            <id>spring-maven-release</id>
+            <name>Spring Maven Release Repository</name>
+            <url>http://maven.springframework.org/release</url>
+        </repository>
+
+		<repository>
+			<id>my-local-repo</id>
+			<url>file://${basedir}/lib/repo</url>
+		</repository>
+
+		<repository>
+			<id>bedatadriven-thirdparty</id>
+			<url>http://nexus.bedatadriven.com/content/repositories/thirdparty/</url>
+		</repository>
+
+		<repository>
+			<id>objectify-appengine</id>
+			<url>http://objectify-appengine.googlecode.com/svn/maven</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+	   <pluginRepository>
+	     <id>sonatype.snapshots</id>
+	     <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+	   </pluginRepository>
+	</pluginRepositories>
+</project>
