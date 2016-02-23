@@ -18,6 +18,8 @@ To setup own installation of Forevernote need to:<br/>
   <li>Adjust <i>src/com/eschava/forevernote/Constants.java</i> file with Evernote API keys and other sensitive data</li>
   <li>Adjust <i>resources/WEB-INF/appengine-web.xml</i> file with name of AppEngine application</li>
   <li>Execute <i>mvn gae:deploy</i> and provide correct Google credentials for deploying application</li>
+  <li>Open <a href="https://dev.evernote.com/support/">Evernote Dev support</a> page and request a web hook. In <i>Webhook Notification URL</i> need to specify <i>http://APPENGINE_APP_NAME.appspot.com/noteUpdated</i></li>
+  <li>Wait for confirmation from Evernote Dev support team</li>
 </ul>
 
 
