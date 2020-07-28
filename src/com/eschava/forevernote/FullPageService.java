@@ -473,6 +473,8 @@ public class FullPageService
             if (param.startsWith("charset="))
             {
                 charset = param.split("=", 2)[1];
+                if (charset.startsWith("\"") && charset.endsWith("\""))
+                    charset = charset.substring(1, charset.length() - 1);
                 break;
             }
         }
