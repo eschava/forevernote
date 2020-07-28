@@ -3,7 +3,9 @@
 	<application>evernote-offline</application>
 	<version>1</version>
 	<sessions-enabled>true</sessions-enabled>
+	<runtime>java8</runtime>
 	<threadsafe>true</threadsafe>
+	<url-stream-handler>urlfetch</url-stream-handler>
 	<!-- Configure java.util.logging -->
 	<system-properties>
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>

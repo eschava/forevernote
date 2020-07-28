@@ -37,8 +37,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 
@@ -53,9 +53,9 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
+				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-                <version>7.1.2.v20100523</version>
+                <version>9.4.30.v20200611</version>
                 <configuration>
                     <webAppSourceDirectory>resources</webAppSourceDirectory>
                     <webAppConfig>
@@ -65,26 +65,9 @@
             </plugin>
 
 			<plugin>
-				<groupId>net.kindleit</groupId>
-				<artifactId>maven-gae-plugin</artifactId>
-				<version>0.9.6</version>
-				<configuration>
-					<unpackVersion>${gae.version}</unpackVersion>
-					<sdkDir>${appengine.sdk.root}</sdkDir>
-					<jvmFlags>
-						<jvmFlag>-Dfile.encoding=UTF-8</jvmFlag>
-						<jvmFlag>-Xdebug</jvmFlag>
-						<jvmFlag>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000</jvmFlag>
-					</jvmFlags>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>net.kindleit</groupId>
-						<artifactId>gae-runtime</artifactId>
-						<version>${gae-runtime.version}</version>
-						<type>pom</type>
-					</dependency>
-				</dependencies>
+				<groupId>com.google.appengine</groupId>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version>1.9.81</version>
 			</plugin>
 		</plugins>
 	</build>
